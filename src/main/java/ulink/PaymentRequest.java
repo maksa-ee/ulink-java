@@ -45,15 +45,15 @@ public class PaymentRequest extends AbstractRequest {
     }
 
     public String getType() {
-        return "auth";
+        return "pay";
     }
 
 
     @Override
     protected String getDataJson() {
-        String ret = "{amount:" + Util.money(getAmount()) + ",currency:\"" + getCurrency() + "\"";
+        String ret = "{\"amount\":" + Util.money(getAmount()) + ",\"currency\":\"" + getCurrency() + "\"";
         if (order != null) {
-            ret += ",order:" + getOrder().toJson();
+            ret += ",\"order\":" + getOrder().toJson();
         }
         return ret + "}";
     }

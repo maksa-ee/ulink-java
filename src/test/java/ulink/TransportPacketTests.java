@@ -17,12 +17,12 @@ public class TransportPacketTests {
         String encodedSignature = encoder.encode(signature);
 
         TransportPacket packet = new TransportPacket();
-        packet.setRequest("{bar:\"foo\"}");
+        packet.setRequest("{\"bar\":\"foo\"}");
         packet.setSignature(signature);
         packet.setClientId(15);
 
         assertEquals(
-                "ulink:" + Protocol.VERSION + ":15:{bar:\"foo\"}:" + encodedSignature,
+                "ulink:" + Protocol.VERSION + ":15:{\"bar\":\"foo\"}:" + encodedSignature,
                 packet.toJson()
         );
     }

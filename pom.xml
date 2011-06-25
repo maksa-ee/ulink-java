@@ -26,6 +26,17 @@
             <!--<artifactId>jackson-core-lgpl</artifactId>-->
             <!--<version>1.8.2</version>-->
         <!--</dependency>-->
+
+        <dependency>
+            <groupId>bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>140</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-asl</artifactId>
+            <version>0.9.5</version>
+        </dependency>
     </dependencies>
 
     <!--<repositories>-->

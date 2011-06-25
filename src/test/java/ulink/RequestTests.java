@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,7 +18,11 @@ public class RequestTests {
     public void testAuthRequest() {
         AuthRequest request = new AuthRequest();
         request.setTimestamp(123);
-        assertEquals("{type:\"auth\",timestamp:123,data:{}}", request.toJson());
+
+        Map<String,Object> data = request.getJsonData();
+        assertEquals("auth", (String)data.get("type"));
+        assertEquals("123", (Integer)data.get("123"));
+        assertEquals(Map.class, data.get("data"));
     }
 
     @Test
@@ -27,8 +32,14 @@ public class RequestTests {
         request.setCurrency("EUR");
         request.setTimestamp(123);
 
-        assertEquals("{type:\"auth\",timestamp:123,data:{" +
-                    "amount:23.50,currency:\"EUR\"" +
+
+        Map<String,Object> data = request.getJsonData();
+        assertEquals("auth", (String)data.get("type"));
+        assertEquals("123", (Integer)data.get("123"));
+        assertEquals(Map.class, data.get("data"));
+
+        assertEquals("{\"type\":\"pay\",\"timestamp\":123,\"data\":{" +
+                    "\"amount\":\"23.50\",\"currency\":\"EUR\"" +
                 "}}", request.toJson());
     }
 
@@ -44,9 +55,9 @@ public class RequestTests {
         request.setTimestamp(123);
         request.setOrder(order);
 
-        assertEquals("{type:\"auth\",timestamp:123,data:{" +
-                    "amount:23.50,currency:\"EUR\"" +
-                ",order:foo}}", request.toJson());
+        assertEquals("{\"type\":\"pay\",\"timestamp\":123,\"data\":{" +
+                    "\"amount\":\"23.50\",\"currency\":\"EUR\"" +
+                ",\"order\":foo}}", request.toJson());
     }
 
     @Test
@@ -74,6 +85,6 @@ public class RequestTests {
         item.setQuantity(2);
         item.setOneItemPrice(new BigDecimal(35.90));
 
-        assertEquals("{name:\"foo\",descr:\"Tom's \\\"big\\\" dog\",qty:2,price:35.90}", item.toJson());
+        assertEquals("{\"name\":\"foo\",\"descr\":\"Tom's \\\"big\\\" dog\",\"qty\":2,\"price\":\"35.90\"}", item.toJson());
     }
 }

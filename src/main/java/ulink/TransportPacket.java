@@ -42,6 +42,6 @@ public class TransportPacket {
 
     public String toJson() {
         BASE64Encoder encoder = new BASE64Encoder();
-        return "ulink:" + Protocol.VERSION + ":" + getClientId() + ":" + getRequest() + ":" + encoder.encode(signature);
+        return "{protocol:\"" + Protocol.VERSION + "\",clientId:" + getClientId() + ",request:" + getRequest() + ",signature:\"" + encoder.encode(signature) + "\"}";
     }
 }

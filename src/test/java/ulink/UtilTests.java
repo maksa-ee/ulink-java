@@ -29,9 +29,9 @@ public class UtilTests {
 
         TransportPacket packet = new TransportPacket();
         packet.setRequest(requestJson);
-        packet.setSignature(signRSA(requestJson.getBytes(), keyPair.getPrivate()));
+        packet.setSignature(sign(requestJson.getBytes(), keyPair.getPrivate()));
         packet.setClientId(15);
 
-        System.out.println(packet.toJson());
+//        System.out.println(packet.toJson());
     }
 }

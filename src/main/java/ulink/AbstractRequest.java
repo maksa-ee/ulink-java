@@ -22,7 +22,7 @@ public abstract class AbstractRequest implements Request {
     }
 
     public String toJson() {
-        return "{type:\""+ getType() +"\",timestamp:" + getTimestamp() + ",data:" + getDataJson() + "}";
+        return "{\"type\":\""+ getType() +"\",\"timestamp\":" + getTimestamp() + ",\"data\":" + getDataJson() + "}";
     }
 
     protected abstract String getDataJson();

@@ -86,10 +86,10 @@ public class OrderItem {
     }
 
     public String toJson() {
-        return "{name:\"" + Util.escapeJsonString(getName()) +
-                "\",descr:\"" + Util.escapeJsonString(getDescription()) +
-                "\",qty:" + getQuantity() +
-                ",price:" + Util.money(getOneItemPrice()) +
+        return "{\"name\":\"" + Util.escapeJsonString(getName()) +
+                "\",\"descr\":\"" + Util.escapeJsonString(getDescription()) +
+                "\",\"qty\":" + getQuantity() +
+                ",\"price\":" + Util.money(getOneItemPrice()) +
                 "}";
     }
 }

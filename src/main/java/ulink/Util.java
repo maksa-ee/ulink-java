@@ -14,6 +14,6 @@ public class Util {
 
     public static String money(BigDecimal amount) {
         DecimalFormat formatter = new DecimalFormat("#.00");
-        return formatter.format(amount);
+        return "\"" + formatter.format(amount) + "\"";
     }
 }
