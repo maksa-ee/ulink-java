@@ -1,6 +1,12 @@
 package ulink;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import sun.org.mozilla.javascript.internal.Function;
+
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -21,9 +27,15 @@ public abstract class AbstractRequest implements Request {
         this.timestamp = timestamp;
     }
 
-    public String toJson() {
-        return "{\"type\":\""+ getType() +"\",\"timestamp\":" + getTimestamp() + ",\"data\":" + getDataJson() + "}";
+    public Map<String,Object> getJsonData() {
+        Map<String,Object> data = new HashMap<String, Object>();
+        data.put("type", getType());
+        data.put("timestamp", getTimestamp());
+        return data;
     }
 
-    protected abstract String getDataJson();
+    public String toJson() {
+        JSONObject jsonObject = new JSONObject(getJsonData());
+        return jsonObject.toString();
+    }
 }

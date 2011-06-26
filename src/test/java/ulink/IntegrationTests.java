@@ -58,4 +58,9 @@ public class IntegrationTests {
 
         System.out.println(packet.toJson());
     }
+
+    @Test
+    public void paymentIn() {
+        String rawData = "";
+    }
 }

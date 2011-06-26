@@ -1,5 +1,6 @@
 package ulink;
 
+import org.json.JSONObject;
 import sun.misc.BASE64Encoder;
 
 import java.util.Date;
@@ -15,13 +16,13 @@ public class AuthRequest extends AbstractRequest {
         return "auth";
     }
 
-
-    @Override
-    protected String getDataJson() {
-        return "{}";
+    public Map<String,Object> getJsonData() {
+        Map<String,Object> data = super.getJsonData();
+        data.put("data", new HashMap<String, Object>());
+        return data;
     }
 
-    public Map<String,Object> getJsonData() {
-        return new HashMap<String, Object>();
+    public static AuthRequest createFromJson(JSONObject json) {
+        return new AuthRequest();
     }
 }

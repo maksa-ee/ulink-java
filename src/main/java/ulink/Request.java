@@ -1,5 +1,9 @@
 package ulink;
 
+import sun.org.mozilla.javascript.internal.Function;
+
+import java.util.Map;
+
 /**
  *
  */
@@ -13,8 +17,10 @@ public interface Request {
      */
     public String getType();
 
+    public int getTimestamp();
+
     /**
      * Converts request to json string
      */
-    public String toJson();
+    public Map<String,Object> getJsonData();
 }

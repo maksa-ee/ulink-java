@@ -1,6 +1,8 @@
 package ulink;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -85,11 +87,12 @@ public class OrderItem {
         this.oneItemPrice = oneItemPrice;
     }
 
-    public String toJson() {
-        return "{\"name\":\"" + Util.escapeJsonString(getName()) +
-                "\",\"descr\":\"" + Util.escapeJsonString(getDescription()) +
-                "\",\"qty\":" + getQuantity() +
-                ",\"price\":" + Util.money(getOneItemPrice()) +
-                "}";
+    public Map<String, Object> getJsonData() {
+        Map<String,Object> data = new HashMap<String,Object>();
+        data.put("name", getName());
+        data.put("descr", getDescription());
+        data.put("qty", getQuantity());
+        data.put("price", Util.money(getOneItemPrice()));
+        return data;
     }
 }

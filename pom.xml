@@ -33,9 +33,9 @@
             <version>140</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-asl</artifactId>
-            <version>0.9.5</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
         </dependency>
     </dependencies>
 

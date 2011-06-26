@@ -1,7 +1,12 @@
 package ulink;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -48,13 +53,28 @@ public class PaymentRequest extends AbstractRequest {
         return "pay";
     }
 
-
     @Override
-    protected String getDataJson() {
-        String ret = "{\"amount\":" + Util.money(getAmount()) + ",\"currency\":\"" + getCurrency() + "\"";
+    public Map<String,Object> getJsonData() {
+        Map<String,Object> localData = new HashMap<String, Object>();
+        localData.put("amount", Util.money(getAmount()));
+        localData.put("currency", getCurrency());
+
+        Map<String,Object> data = super.getJsonData();
+        data.put("data", localData);
+
         if (order != null) {
-            ret += ",\"order\":" + getOrder().toJson();
+           localData.put("order", getOrder().getJsonData());
         }
-        return ret + "}";
+        return data;
+    }
+
+    public static PaymentRequest createFromJson(JSONObject json) throws JSONException {
+        PaymentRequest request = new PaymentRequest();
+        request.setAmount(new BigDecimal(json.getString("amount")));
+        request.setCurrency(json.getString("currency"));
+        if (json.has("order")) {
+            request.setOrder(Order.createFromJson(json.getJSONArray("order")));
+        }
+        return request;
     }
 }

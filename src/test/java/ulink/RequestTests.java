@@ -1,11 +1,13 @@
 package ulink;
 
+import org.json.JSONException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +21,7 @@ public class RequestTests {
         AuthRequest request = new AuthRequest();
         request.setTimestamp(123);
 
-        Map<String,Object> data = request.getJsonData();
-        assertEquals("auth", (String)data.get("type"));
-        assertEquals("123", (Integer)data.get("123"));
-        assertEquals(Map.class, data.get("data"));
+        assertEquals("{\"timestamp\":123,\"data\":{},\"type\":\"auth\"}", request.toJson());
     }
 
     @Test
@@ -32,49 +31,38 @@ public class RequestTests {
         request.setCurrency("EUR");
         request.setTimestamp(123);
 
-
-        Map<String,Object> data = request.getJsonData();
-        assertEquals("auth", (String)data.get("type"));
-        assertEquals("123", (Integer)data.get("123"));
-        assertEquals(Map.class, data.get("data"));
-
-        assertEquals("{\"type\":\"pay\",\"timestamp\":123,\"data\":{" +
+        assertEquals("{\"timestamp\":123,\"data\":{" +
                     "\"amount\":\"23.50\",\"currency\":\"EUR\"" +
-                "}}", request.toJson());
+                "},\"type\":\"pay\"}", request.toJson());
     }
 
     @Test
-    public void testPayRequestWithOrder() {
+    public void createRequestWithOrderFromJson() throws JSONException {
+        String json = "{\"timestamp\":123,\"data\":{" +
+                    "\"amount\":\"23.50\",\"currency\":\"EUR\",order:[" +
+                "{\"name\":\"foo\",\"descr\":\"bar\",\"qty\":3,\"price\":\"12.80\"}," +
+                "{\"name\":\"foo2\",\"descr\":\"bar2\",\"qty\":1,\"price\":\"12.90\"}" +
+                "]" +
+                "},\"type\":\"pay\"}";
 
-        Order order = mock(Order.class);
-        when(order.toJson()).thenReturn("foo");
+        Request request = RequestFactory.createFromJson(json);
+        assertEquals(PaymentRequest.class, request.getClass());
+        assertEquals(123, request.getTimestamp());
 
-        PaymentRequest request = new PaymentRequest();
-        request.setAmount(new BigDecimal(23.50));
-        request.setCurrency("EUR");
-        request.setTimestamp(123);
-        request.setOrder(order);
-
-        assertEquals("{\"type\":\"pay\",\"timestamp\":123,\"data\":{" +
-                    "\"amount\":\"23.50\",\"currency\":\"EUR\"" +
-                ",\"order\":foo}}", request.toJson());
+        PaymentRequest paymentRequest = (PaymentRequest) request;
+        assertEquals(new BigDecimal("23.50"), paymentRequest.getAmount());
+        assertEquals("EUR", paymentRequest.getCurrency());
+        assertEquals(123, paymentRequest.getTimestamp());
+        assertNotNull(paymentRequest.getOrder());
     }
 
     @Test
-    public void orderListToJson() {
-        List<OrderItem> items = new ArrayList<OrderItem>();
-        OrderItem item1 = mock(OrderItem.class);
-        when(item1.toJson()).thenReturn("foo");
-        OrderItem item2 = mock(OrderItem.class);
-        when(item2.toJson()).thenReturn("bar");
+    public void createAuthRequestFromJson() throws JSONException {
+        String json = "{\"timestamp\":123,\"data\":{},\"type\":\"auth\"}";
 
-        items.add(item1);
-        items.add(item2);
-
-        Order order = new Order();
-        order.setItems(items);
-
-        assertEquals("[foo,bar]", order.toJson());
+        Request request = RequestFactory.createFromJson(json);
+        assertEquals(123, request.getTimestamp());
+        assertEquals(AuthRequest.class, request.getClass());
     }
 
     @Test
@@ -85,6 +73,10 @@ public class RequestTests {
         item.setQuantity(2);
         item.setOneItemPrice(new BigDecimal(35.90));
 
-        assertEquals("{\"name\":\"foo\",\"descr\":\"Tom's \\\"big\\\" dog\",\"qty\":2,\"price\":\"35.90\"}", item.toJson());
+        Map<String,Object> data = item.getJsonData();
+        assertEquals("foo", data.get("name"));
+        assertEquals("Tom's \"big\" dog", data.get("descr"));
+        assertEquals(2, data.get("qty"));
+        assertEquals("35.90", data.get("price"));
     }
 }

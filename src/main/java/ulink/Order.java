@@ -1,5 +1,9 @@
 package ulink;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +33,30 @@ public class Order {
     public String toJson() {
         StringBuilder ret = new StringBuilder();
         ret.append('[');
-        for(OrderItem item : items) {
-            ret.append(item.toJson());
-            if (item != items.get(items.size() - 1)) {
-                ret.append(',');
-            }
-        }
+
         ret.append(']');
         return ret.toString();
+    }
+
+    public List<Object> getJsonData() {
+        List<Object> list = new ArrayList<Object>();
+        for(OrderItem item : items) {
+            list.add(item.getJsonData());
+        }
+        return list;
+    }
+
+    public static Order createFromJson(JSONArray jsonData) throws JSONException {
+        Order order = new Order();
+        for(int i=0; i < jsonData.length(); i++) {
+            JSONObject item = jsonData.getJSONObject(i);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setName(item.getString("name"));
+            orderItem.setDescription(item.getString("descr"));
+            orderItem.setQuantity(item.getInt("qty"));
+            orderItem.setOneItemPrice(item.getString("price"));
+            order.addItem(orderItem);
+        }
+        return order;
     }
 }
