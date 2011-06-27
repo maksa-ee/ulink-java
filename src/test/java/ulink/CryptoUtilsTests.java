@@ -15,6 +15,14 @@ import static org.junit.Assert.*;
 public class CryptoUtilsTests {
 
     @Test
+    public void base64encode() {
+        String longLongLongText = "adfhajkdsfhglewrhgjerhkgjewrhkgjhewkgjhkewhjgewrkgjekjahfkjahdskfljhewruifhqewuifhiqewufhiuqwhfiugqwuifgqwuifgquiwegfiuqg";
+
+        // are these strange new line sybols are comming from base64 encode function?
+        assertFalse(CryptoUtils.base64Encode(longLongLongText.getBytes()).contains("\n"));
+    }
+
+    @Test
     public void generateKeyPair() throws IOException {
         KeyPair pair = CryptoUtils.generateRSAKeyPair();
         assertNotNull(pair.getPrivate());
@@ -109,7 +117,7 @@ public class CryptoUtilsTests {
 
         PrivateKey privateKey = CryptoUtils.readPemPrivateKey(key);
 
-        String sealed = "vKkoXSkBCiF2:Yv8Z050myrf+4WogfUP5/D+PBjLNXv10C/ZsR2SI9GfuME2AMoZ504LqdJth7gA9Kc+1xZbv5jBAs/4CiKc1xQ==";
+        String sealed = "vKkoXSkBCiF2@Yv8Z050myrf+4WogfUP5/D+PBjLNXv10C/ZsR2SI9GfuME2AMoZ504LqdJth7gA9Kc+1xZbv5jBAs/4CiKc1xQ==";
         String opened = CryptoUtils.unseal(sealed, privateKey);
 
         assertEquals("foobarbaz", opened);

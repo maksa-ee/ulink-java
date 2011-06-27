@@ -3,6 +3,7 @@ package ulink;
 import com.sun.deploy.util.SystemUtils;
 import org.bouncycastle.openssl.PEMReader;
 import org.bouncycastle.openssl.PEMWriter;
+import org.bouncycastle.util.encoders.Base64;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -188,8 +189,6 @@ public class CryptoUtils {
 
     public static String seal(String myData, PublicKey publicKey) {
 
-        BASE64Encoder base64Encoder = new BASE64Encoder();
-
         try {
 
             byte[] plainKey = generateRandomBytes(128/8);
@@ -203,7 +202,7 @@ public class CryptoUtils {
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
             byte[] chiperText = cipher.doFinal(myData.getBytes());
 
-            return base64Encoder.encode(chiperText) + ":" + base64Encoder.encode(chiperKey);
+            return CryptoUtils.base64Encode(chiperText) + "@" + CryptoUtils.base64Encode(chiperKey);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -212,26 +211,36 @@ public class CryptoUtils {
 
     public static String unseal(String sealed, PrivateKey privateKey) {
 
-        String[] parts = sealed.split(":");
+        String[] parts = sealed.split("@");
         String cipherText = parts[0];
         String cipherKey = parts[1];
-
-        BASE64Decoder base64Decoder = new BASE64Decoder();
 
         try {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            byte[] plainKey = cipher.doFinal(base64Decoder.decodeBuffer(cipherKey));
+            byte[] plainKey = cipher.doFinal(CryptoUtils.base64Decode(cipherKey));
 
             SecretKey skeySpec = new SecretKeySpec(plainKey, "RC4");
             cipher = Cipher.getInstance("RC4");
             cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-            byte[] plaintext = cipher.doFinal(base64Decoder.decodeBuffer(cipherText));
+            byte[] plaintext = cipher.doFinal(CryptoUtils.base64Decode(cipherText));
 
             return new String(plaintext, "UTF-8");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String base64Encode(byte[] data) {
+        try {
+            return new String(Base64.encode(data),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static byte[] base64Decode(String data) {
+        return Base64.decode(data);
     }
 }

@@ -7,6 +7,8 @@ import sun.misc.BASE64Encoder;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.security.InvalidKeyException;
+import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,8 +50,7 @@ public class TransportPacket {
 
 
     public String toJson() {
-        BASE64Encoder encoder = new BASE64Encoder();
-        return "ulink:" + Protocol.VERSION + ":" + getClientId() + ":" + getRequest() + ":" + encoder.encode(signature);
+        return "ulink:" + Protocol.VERSION + ":" + getClientId() + ":" + getRequest() + ":" + CryptoUtils.base64Encode(signature);
     }
 
     public static TransportPacket createFromJson(String encodedPacket) {
@@ -64,5 +65,17 @@ public class TransportPacket {
         }
         packet.setClientId(Integer.parseInt(parts[2]));
         return packet;
+    }
+
+    public boolean validateAgainstKey(PublicKey pubKey) {
+        try {
+            return CryptoUtils.isValidRSASignature(
+                    getRequest().getBytes(),
+                    getSignature(),
+                    pubKey
+            );
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

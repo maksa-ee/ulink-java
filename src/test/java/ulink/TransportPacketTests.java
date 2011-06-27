@@ -13,8 +13,7 @@ public class TransportPacketTests {
     @Test
     public void testTransportPacketCompilation() {
         byte[] signature = "=signature=".getBytes();
-        BASE64Encoder encoder = new BASE64Encoder();
-        String encodedSignature = encoder.encode(signature);
+        String encodedSignature = CryptoUtils.base64Encode(signature);
 
         TransportPacket packet = new TransportPacket();
         packet.setRequest("barnaz");
@@ -29,8 +28,7 @@ public class TransportPacketTests {
 
     @Test
     public void testTransportPacketDecompilation() {
-        BASE64Encoder encoder = new BASE64Encoder();
-        String encodedSignature = encoder.encode("foo".getBytes());
+        String encodedSignature = CryptoUtils.base64Encode("foo".getBytes());
 
         String encodedPacket = "ulink:0.9:15:barnaz:" + encodedSignature;
 
