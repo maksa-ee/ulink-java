@@ -1,9 +1,8 @@
 package ulink;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-import sun.misc.BASE64Encoder;
-import static org.mockito.Mockito.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *

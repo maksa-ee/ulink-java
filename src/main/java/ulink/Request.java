@@ -1,7 +1,5 @@
 package ulink;
 
-import sun.org.mozilla.javascript.internal.Function;
-
 import java.util.Map;
 
 /**

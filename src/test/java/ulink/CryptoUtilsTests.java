@@ -2,10 +2,10 @@ package ulink;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PrivateKey;
-import java.io.IOException;
 import java.security.PublicKey;
 
 import static org.junit.Assert.*;

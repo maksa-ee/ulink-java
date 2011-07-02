@@ -2,17 +2,14 @@ package ulink;
 
 import org.json.JSONException;
 import org.junit.Test;
-import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.InvalidKeyException;
-import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import static org.junit.Assert.*;
-import static ulink.CryptoUtils.generateRSAKeyPair;
 import static ulink.CryptoUtils.sign;
 
 /**

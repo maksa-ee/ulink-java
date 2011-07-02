@@ -1,9 +1,7 @@
 package ulink;
 
 import org.json.JSONObject;
-import sun.misc.BASE64Encoder;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +14,8 @@ public class AuthRequest extends AbstractRequest {
         return "auth";
     }
 
-    public Map<String,Object> getJsonData() {
-        Map<String,Object> data = super.getJsonData();
+    public Map<String, Object> getJsonData() {
+        Map<String, Object> data = super.getJsonData();
         data.put("data", new HashMap<String, Object>());
         return data;
     }

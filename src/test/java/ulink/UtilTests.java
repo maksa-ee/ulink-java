@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
-import static ulink.CryptoUtils.*;
+
+import static ulink.CryptoUtils.generateRSAKeyPair;
+import static ulink.CryptoUtils.sign;
 
 /**
  *
