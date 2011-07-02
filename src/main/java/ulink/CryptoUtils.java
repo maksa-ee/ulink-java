@@ -12,6 +12,7 @@ import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Date;
 
 /**
  * {@inheritDoc}
@@ -108,7 +109,7 @@ public class CryptoUtils {
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 
 			SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-			random.setSeed(33);
+			random.generateSeed(3);
 			keyGen.initialize(1024, random);
 
 			return keyGen.generateKeyPair();

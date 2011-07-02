@@ -29,14 +29,27 @@ public class CryptoUtilsTests {
         assertNotNull(pair.getPrivate());
         assertNotNull(pair.getPublic());
 
-
-
         String privatePem = CryptoUtils.convertPrivateToPem(pair.getPrivate());
         assertTrue(privatePem.startsWith("-----BEGIN RSA PRIVATE KEY-----"));
 
         String publicPem = CryptoUtils.convertPublicToPem(pair.getPublic());
         assertTrue(publicPem.startsWith("-----BEGIN PUBLIC KEY-----"));
     }
+
+    @Test
+    public void twoGeneratedPairsShouldNotBeEqual() throws IOException {
+        KeyPair pair = CryptoUtils.generateRSAKeyPair();
+        String privatePem1 = CryptoUtils.convertPrivateToPem(pair.getPrivate());
+        String publicPem1 = CryptoUtils.convertPublicToPem(pair.getPublic());
+
+        pair = CryptoUtils.generateRSAKeyPair();
+        String privatePem2 = CryptoUtils.convertPrivateToPem(pair.getPrivate());
+        String publicPem2 = CryptoUtils.convertPublicToPem(pair.getPublic());
+
+        assertFalse(privatePem1.equals(privatePem2));
+        assertFalse(publicPem1.equals(publicPem2));
+    }
+
 
     @Test
     public void readAndVerifyWithRealKeysKey() throws MallformedPemKeyException, IOException, InvalidKeyException {
