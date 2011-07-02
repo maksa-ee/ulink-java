@@ -125,7 +125,8 @@ public class CryptoUtils {
 	/**
 	 * Returns the current signature method. Currently only RSA is
 	 * supported. Other methods will be listed as need in them appears.
-	 */
+     * @return something
+     */
 	private static String getSignatureMethod() {
 		return "SHA1withRSA";
 	}

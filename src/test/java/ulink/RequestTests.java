@@ -20,8 +20,9 @@ public class RequestTests {
     public void testAuthRequest() {
         AuthRequest request = new AuthRequest();
         request.setTimestamp(123);
+        request.setClientTransactionId(456);
 
-        assertEquals("{\"timestamp\":123,\"data\":{},\"type\":\"auth\"}", request.toJson());
+        assertEquals("{\"type\":\"auth\",\"timestamp\":123,\"id\":456,\"data\":{}}", request.toJson());
     }
 
     @Test
@@ -30,10 +31,11 @@ public class RequestTests {
         request.setAmount(new BigDecimal(23.50));
         request.setCurrency("EUR");
         request.setTimestamp(123);
+        request.setClientTransactionId(456);
 
-        assertEquals("{\"timestamp\":123,\"data\":{" +
+        assertEquals("{\"type\":\"pay\",\"timestamp\":123,\"id\":456,\"data\":{" +
                     "\"amount\":\"23.50\",\"currency\":\"EUR\"" +
-                "},\"type\":\"pay\"}", request.toJson());
+                "}}", request.toJson());
     }
 
     @Test

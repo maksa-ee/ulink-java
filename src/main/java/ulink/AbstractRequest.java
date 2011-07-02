@@ -6,6 +6,7 @@ import sun.org.mozilla.javascript.internal.Function;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -15,6 +16,14 @@ public abstract class AbstractRequest implements Request {
 
     int timestamp;
     int clientTransactionId;
+
+    public int getClientTransactionId() {
+        return clientTransactionId;
+    }
+
+    public void setClientTransactionId(int clientTransactionId) {
+        this.clientTransactionId = clientTransactionId;
+    }
 
     public int getTimestamp() {
         if (timestamp > 0) {
@@ -28,9 +37,10 @@ public abstract class AbstractRequest implements Request {
     }
 
     public Map<String,Object> getJsonData() {
-        Map<String,Object> data = new HashMap<String, Object>();
+        Map<String,Object> data = new LinkedHashMap<String, Object>();
         data.put("type", getType());
         data.put("timestamp", getTimestamp());
+        data.put("id", getClientTransactionId());
         return data;
     }
 

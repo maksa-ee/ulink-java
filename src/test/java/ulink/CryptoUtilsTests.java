@@ -1,11 +1,12 @@
 package ulink;
 
 import org.junit.Test;
-import sun.misc.BASE64Encoder;
 
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.io.IOException;
-import java.security.*;
-import java.util.prefs.BackingStoreException;
+import java.security.PublicKey;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +28,8 @@ public class CryptoUtilsTests {
         KeyPair pair = CryptoUtils.generateRSAKeyPair();
         assertNotNull(pair.getPrivate());
         assertNotNull(pair.getPublic());
+
+
 
         String privatePem = CryptoUtils.convertPrivateToPem(pair.getPrivate());
         assertTrue(privatePem.startsWith("-----BEGIN RSA PRIVATE KEY-----"));

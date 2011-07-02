@@ -64,7 +64,9 @@ public class IntegrationTests {
         packet.setSignature(sign(requestJson.getBytes(), privateKey));
         packet.setClientId(15);
 
-        System.out.print(packet.toJson());
+        // --------------------
+        // System.out.print(packet.toJson()); Here we take encoded packet for PHP tests
+        // --------------------
 
         String rawData = packet.toJson();
         packet = TransportPacket.createFromJson(rawData);
