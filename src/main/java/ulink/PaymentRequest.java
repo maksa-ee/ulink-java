@@ -68,11 +68,12 @@ public class PaymentRequest extends AbstractRequest {
     }
 
     public static PaymentRequest createFromJson(JSONObject json) throws JSONException {
+        JSONObject data = json.getJSONObject("data");
         PaymentRequest request = new PaymentRequest();
-        request.setAmount(new BigDecimal(json.getString("amount")));
-        request.setCurrency(json.getString("currency"));
-        if (json.has("order")) {
-            request.setOrder(Order.createFromJson(json.getJSONArray("order")));
+        request.setAmount(new BigDecimal(data.getString("amount")));
+        request.setCurrency(data.getString("currency"));
+        if (data.has("order")) {
+            request.setOrder(Order.createFromJson(data.getJSONArray("order")));
         }
         return request;
     }

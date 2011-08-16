@@ -15,11 +15,15 @@ public class RequestFactory {
         AbstractRequest request;
         String type = jsonData.getString("type");
         if (type.equals("auth")) {
-            request = AuthRequest.createFromJson(jsonData.getJSONObject("data"));
+            request = AuthRequest.createFromJson(jsonData);
         } else if (type.equals("pay")) {
-            request = PaymentRequest.createFromJson(jsonData.getJSONObject("data"));
+            request = PaymentRequest.createFromJson(jsonData);
+        } else if (type.equals("auth-response")) {
+            request = AuthResponse.createFromJson(jsonData);
+        } else if (type.equals("pay-response")) {
+            request = PaymentResponse.createFromJson(jsonData);
         } else {
-            throw new JSONException("type should be one of auth or pay. Given: " + type);
+            throw new JSONException("type should be one of auth, pay, auth-response or pay-response. Given: " + type);
         }
         request.setTimestamp(jsonData.getInt("timestamp"));
         return request;

@@ -1,5 +1,6 @@
 package ulink;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -20,7 +21,8 @@ public class AuthRequest extends AbstractRequest {
         return data;
     }
 
-    public static AuthRequest createFromJson(JSONObject json) {
+    public static AuthRequest createFromJson(JSONObject json) throws JSONException {
+        JSONObject data = json.getJSONObject("data");
         return new AuthRequest();
     }
 }
