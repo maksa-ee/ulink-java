@@ -19,6 +19,8 @@ import java.util.Map;
 public class PaymentResponse extends PaymentRequest implements Response {
     protected boolean isSuccess;
 
+    protected boolean isTest;
+
     private List<String> errors = new ArrayList<String>();
     private List<Integer> errorCodes = new ArrayList<Integer>();
 
@@ -49,9 +51,20 @@ public class PaymentResponse extends PaymentRequest implements Response {
     public String getType() {
         return "pay-response";
     }
+
+    public boolean isTest() {
+        return isTest;
+    }
+
+    public void setTest(boolean test) {
+        isTest = test;
+    }
+
+
     public Map<String, Object> getJsonData() {
         Map<String, Object> data = super.getJsonData();
         data.put("success", isSuccess());
+        data.put("test", isTest());
         data.put("errors", getErrors());
         data.put("errorCodes", getErrorCodes());
         return data;
@@ -68,6 +81,7 @@ public class PaymentResponse extends PaymentRequest implements Response {
             request.setOrder(Order.createFromJson(data.getJSONArray("order")));
         }
         request.setSuccess(json.getBoolean("success"));
+        request.setTest(json.getBoolean("test"));
 
 
         ArrayList<String> errors = new ArrayList<String>();

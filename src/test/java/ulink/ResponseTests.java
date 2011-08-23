@@ -48,8 +48,9 @@ public class ResponseTests {
         request.setTimestamp(123);
         request.setClientTransactionId(456);
         request.setSuccess(true);
+        request.setTest(true);
 
-        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"errors\":[],\"errorCodes\":[]}", request.toJson());
+        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"test\":true,\"errors\":[],\"errorCodes\":[]}", request.toJson());
     }
 
     @Test
@@ -63,12 +64,12 @@ public class ResponseTests {
         response.getErrors().add("Wrong signature");
         response.getErrorCodes().add(17987);
 
-        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":false,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}", response.toJson());
+        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":false,\"test\":false,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}", response.toJson());
     }
 
     @Test
     public void createRequestWithOrderFromJson() throws JSONException {
-        String json = "{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}";
+        String json = "{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"test\":true,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}";
 
         Response response = (Response) RequestFactory.createFromJson(json);
         assertEquals(PaymentResponse.class, response.getClass());
@@ -83,5 +84,6 @@ public class ResponseTests {
         assertEquals("Wrong signature", paymentResponse.getErrors().get(0));
         assertEquals(1, paymentResponse.getErrorCodes().size());
         assertEquals(17987, (Object) paymentResponse.getErrorCodes().get(0));
+        assertEquals(true, paymentResponse.isTest());
     }
 }
