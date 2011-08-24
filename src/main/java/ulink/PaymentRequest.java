@@ -72,6 +72,12 @@ public class PaymentRequest extends AbstractRequest {
         PaymentRequest request = new PaymentRequest();
         request.setAmount(new BigDecimal(data.getString("amount")));
         request.setCurrency(data.getString("currency"));
+        if (json.has("response-url")) {
+            request.setResponseUrl(json.getString("response-url"));
+        }
+        if (json.has("back-url")) {
+            request.setGoBackUrl(json.getString("back-url"));
+        }
         if (json.has("id")) {
             request.setClientTransactionId(json.getInt("id"));
         }

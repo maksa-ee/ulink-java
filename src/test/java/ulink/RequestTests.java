@@ -20,7 +20,7 @@ public class RequestTests {
         request.setTimestamp(123);
         request.setClientTransactionId(456);
 
-        assertEquals("{\"type\":\"auth\",\"timestamp\":123,\"id\":456,\"data\":{}}", request.toJson());
+        assertEquals("{\"type\":\"auth\",\"timestamp\":123,\"id\":456,\"response-url\":null,\"back-url\":null,\"data\":{}}", request.toJson());
     }
 
     @Test
@@ -30,15 +30,17 @@ public class RequestTests {
         request.setCurrency("EUR");
         request.setTimestamp(123);
         request.setClientTransactionId(456);
+        request.setGoBackUrl("http://local/");
+        request.setResponseUrl("http://local2/");
 
-        assertEquals("{\"type\":\"pay\",\"timestamp\":123,\"id\":456,\"data\":{" +
+        assertEquals("{\"type\":\"pay\",\"timestamp\":123,\"id\":456,\"response-url\":\"http://local2/\",\"back-url\":\"http://local/\",\"data\":{" +
                     "\"amount\":\"23.50\",\"currency\":\"EUR\"" +
                 "}}", request.toJson());
     }
 
     @Test
     public void createRequestWithOrderFromJson() throws JSONException {
-        String json = "{\"timestamp\":123,\"id\":456, \"data\":{" +
+        String json = "{\"timestamp\":123,\"id\":456,\"response-url\":\"http://local2/\",\"back-url\":\"http://local/\", \"data\":{" +
                     "\"amount\":\"23.50\",\"currency\":\"EUR\",order:[" +
                 "{\"name\":\"foo\",\"descr\":\"bar\",\"qty\":3,\"price\":\"12.80\"}," +
                 "{\"name\":\"foo2\",\"descr\":\"bar2\",\"qty\":1,\"price\":\"12.90\"}" +
@@ -48,6 +50,9 @@ public class RequestTests {
         Request request = RequestFactory.createFromJson(json);
         assertEquals(PaymentRequest.class, request.getClass());
         assertEquals(123, request.getTimestamp());
+
+        assertEquals("http://local/", request.getGoBackUrl());
+        assertEquals("http://local2/", request.getResponseUrl());
 
         PaymentRequest paymentRequest = (PaymentRequest) request;
         assertEquals(new BigDecimal("23.50"), paymentRequest.getAmount());

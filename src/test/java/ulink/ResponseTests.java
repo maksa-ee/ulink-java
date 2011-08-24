@@ -25,7 +25,7 @@ public class ResponseTests {
         response.setSuccess(true);
         response.setTimestamp(123);
         response.setClientTransactionId(456);
-        assertEquals("{\"type\":\"auth-response\",\"timestamp\":123,\"id\":456,\"data\":{},\"success\":true,\"errors\":[],\"errorCodes\":[]}", response.toJson());
+        assertEquals("{\"type\":\"auth-response\",\"timestamp\":123,\"id\":456,\"response-url\":null,\"back-url\":null,\"data\":{},\"success\":true,\"errors\":[],\"errorCodes\":[]}", response.toJson());
     }
 
     @Test
@@ -37,7 +37,7 @@ public class ResponseTests {
         response.setClientTransactionId(456);
         response.getErrors().add("Wrong signature");
         response.getErrorCodes().add(17987);
-        assertEquals("{\"type\":\"auth-response\",\"timestamp\":123,\"id\":456,\"data\":{},\"success\":false,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}", response.toJson());
+        assertEquals("{\"type\":\"auth-response\",\"timestamp\":123,\"id\":456,\"response-url\":null,\"back-url\":null,\"data\":{},\"success\":false,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}", response.toJson());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ResponseTests {
         request.setSuccess(true);
         request.setTest(true);
 
-        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"test\":true,\"errors\":[],\"errorCodes\":[]}", request.toJson());
+        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"response-url\":null,\"back-url\":null,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"test\":true,\"errors\":[],\"errorCodes\":[]}", request.toJson());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ResponseTests {
         response.getErrors().add("Wrong signature");
         response.getErrorCodes().add(17987);
 
-        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":false,\"test\":false,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}", response.toJson());
+        assertEquals("{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"response-url\":null,\"back-url\":null,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":false,\"test\":false,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}", response.toJson());
     }
 
     @Test

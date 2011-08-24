@@ -12,6 +12,24 @@ public abstract class AbstractRequest implements Request {
 
     int timestamp;
     int clientTransactionId;
+    private String goBackUrl;
+    private String responseUrl;
+
+    public String getGoBackUrl() {
+        return goBackUrl;
+    }
+
+    public void setGoBackUrl(String goBackUrl) {
+        this.goBackUrl = goBackUrl;
+    }
+
+    public String getResponseUrl() {
+        return responseUrl;
+    }
+
+    public void setResponseUrl(String responseUrl) {
+        this.responseUrl = responseUrl;
+    }
 
     public int getClientTransactionId() {
         return clientTransactionId;
@@ -37,6 +55,8 @@ public abstract class AbstractRequest implements Request {
         data.put("type", getType());
         data.put("timestamp", getTimestamp());
         data.put("id", getClientTransactionId());
+        data.put("response-url", getResponseUrl());
+        data.put("back-url", getGoBackUrl());
         return data;
     }
 

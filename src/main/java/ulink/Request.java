@@ -23,4 +23,7 @@ public interface Request {
     public Map<String,Object> getJsonData();
 
     public int getClientTransactionId();
+
+    public String getGoBackUrl();
+    public String getResponseUrl();
 }
