@@ -38,7 +38,7 @@ public class RequestTests {
 
     @Test
     public void createRequestWithOrderFromJson() throws JSONException {
-        String json = "{\"timestamp\":123,\"data\":{" +
+        String json = "{\"timestamp\":123,\"id\":456, \"data\":{" +
                     "\"amount\":\"23.50\",\"currency\":\"EUR\",order:[" +
                 "{\"name\":\"foo\",\"descr\":\"bar\",\"qty\":3,\"price\":\"12.80\"}," +
                 "{\"name\":\"foo2\",\"descr\":\"bar2\",\"qty\":1,\"price\":\"12.90\"}" +
@@ -53,6 +53,7 @@ public class RequestTests {
         assertEquals(new BigDecimal("23.50"), paymentRequest.getAmount());
         assertEquals("EUR", paymentRequest.getCurrency());
         assertEquals(123, paymentRequest.getTimestamp());
+        assertEquals(456, paymentRequest.getClientTransactionId());
         assertNotNull(paymentRequest.getOrder());
     }
 
@@ -62,6 +63,7 @@ public class RequestTests {
 
         Request request = RequestFactory.createFromJson(json);
         assertEquals(123, request.getTimestamp());
+
         assertEquals(AuthRequest.class, request.getClass());
     }
 

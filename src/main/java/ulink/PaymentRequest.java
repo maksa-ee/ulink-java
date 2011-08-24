@@ -72,6 +72,9 @@ public class PaymentRequest extends AbstractRequest {
         PaymentRequest request = new PaymentRequest();
         request.setAmount(new BigDecimal(data.getString("amount")));
         request.setCurrency(data.getString("currency"));
+        if (json.has("id")) {
+            request.setClientTransactionId(json.getInt("id"));
+        }
         if (data.has("order")) {
             request.setOrder(Order.createFromJson(data.getJSONArray("order")));
         }

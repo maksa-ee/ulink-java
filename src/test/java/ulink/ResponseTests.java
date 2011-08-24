@@ -68,6 +68,16 @@ public class ResponseTests {
     }
 
     @Test
+    public void testClientTransactionIdPay() throws JSONException {
+
+        String json = "{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"test\":false,\"errors\":[],\"errorCodes\":[]}";
+        Response response = (Response) RequestFactory.createFromJson(json);
+
+        assertEquals(456, response.getClientTransactionId());
+
+    }
+
+    @Test
     public void createRequestWithOrderFromJson() throws JSONException {
         String json = "{\"type\":\"pay-response\",\"timestamp\":123,\"id\":456,\"data\":{\"amount\":\"23.50\",\"currency\":\"EUR\"},\"success\":true,\"test\":true,\"errors\":[\"Wrong signature\"],\"errorCodes\":[17987]}";
 

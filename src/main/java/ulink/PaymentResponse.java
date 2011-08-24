@@ -74,14 +74,17 @@ public class PaymentResponse extends PaymentRequest implements Response {
 
         JSONObject data = json.getJSONObject("data");
 
-        PaymentResponse request = new PaymentResponse();
-        request.setAmount(new BigDecimal(data.getString("amount")));
-        request.setCurrency(data.getString("currency"));
-        if (data.has("order")) {
-            request.setOrder(Order.createFromJson(data.getJSONArray("order")));
+        PaymentResponse response = new PaymentResponse();
+        if (json.has("id")) {
+            response.setClientTransactionId(json.getInt("id"));
         }
-        request.setSuccess(json.getBoolean("success"));
-        request.setTest(json.getBoolean("test"));
+        response.setAmount(new BigDecimal(data.getString("amount")));
+        response.setCurrency(data.getString("currency"));
+        if (data.has("order")) {
+            response.setOrder(Order.createFromJson(data.getJSONArray("order")));
+        }
+        response.setSuccess(json.getBoolean("success"));
+        response.setTest(json.getBoolean("test"));
 
 
         ArrayList<String> errors = new ArrayList<String>();
@@ -91,7 +94,7 @@ public class PaymentResponse extends PaymentRequest implements Response {
               errors.add(jsonArray.getString(i));
            }
         }
-        request.setErrors(errors);
+        response.setErrors(errors);
 
         ArrayList<Integer> errorCodes = new ArrayList<Integer>();
         JSONArray jsonArray2 = json.getJSONArray("errorCodes");
@@ -100,8 +103,8 @@ public class PaymentResponse extends PaymentRequest implements Response {
               errorCodes.add(jsonArray2.getInt(i));
            }
         }
-        request.setErrorCodes(errorCodes);
+        response.setErrorCodes(errorCodes);
 
-        return request;
+        return response;
     }
 }

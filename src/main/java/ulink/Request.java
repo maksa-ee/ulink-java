@@ -21,4 +21,6 @@ public interface Request {
      * Converts request to json string
      */
     public Map<String,Object> getJsonData();
+
+    public int getClientTransactionId();
 }
